@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>signin page</title>
+    <style>
+        fieldset {
+            width: 400px;
+        }
+        section {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <article>
+        <section>
+            <header>
+                <h1>
+                    <%= title %>
+                </h1>
+            </header>
+        </section>
+        <section>
+            <fieldset>
+                <legend><%= pageGuide.pageRef %></legend>
+                <section>
+                    <h3>User Name</h3>
+                    <p><%= authUser.name %></p>
+                </section>
+                <hr>
+                <br>
+                <section>
+                    <%- include('./elements/baseButton.ejs', pageGuide)%>
+                </section>
+            </fieldset>
+        </section>
+    </article>
+</body>
+
+</html>

@@ -1,0 +1,19 @@
+<form action="/signin" method="POST">
+  <section>
+      <label for="userName">User Name
+          <input type="text" name="userName" >
+      </label>
+  </section>
+  <section>
+      <label for="userPasswd">Password
+          <input type="password" name="userPasswd" >
+      </label>
+  </section>
+  <section>
+      <label for="remembermMe">
+          <input type="radio" name="remembermMe" >
+          Remember Me</label>
+  </section>
+  <br>
+  <%- include('./baseButton.ejs', pageGuide)%>
+</form>
