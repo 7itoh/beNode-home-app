@@ -5,8 +5,8 @@ export const signupController: RequestHandler = (req, res): void => {
     const data:Auth = {
         title: 'Authentication',
         pageGuide: {
-            pageRef: 'Set SignUp Your Data',
-            pageAction: 'Register'
+            reference: 'Set SignUp Your Data',
+            action: 'Register'
         },
         link: {
             href: './signin',

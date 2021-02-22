@@ -5,8 +5,8 @@ export const signinController: RequestHandler = (req, res): void => {
     const data: Auth = {
         title: 'Login',
         pageGuide: {
-            pageRef: 'Set Your Email/Passwd',
-            pageAction: 'Click',
+            reference: 'Set Your Email/Passwd',
+            action: 'Click',
         },
         link: {
             href: './signup',

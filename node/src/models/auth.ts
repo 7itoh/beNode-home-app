@@ -1,5 +1,8 @@
 import { Router, Request, Response } from 'express'
 
+import { validationResult } from 'express-validator'
+import { chkIsSignInValied, chkIsSignUpValied } from '../modules/chkIsValied'
+
 import { signinController } from '../controllers/signinController'
 import { signupController } from '../controllers/signupController'
 import { homeController } from '../controllers/homeController'
@@ -19,59 +22,61 @@ router.get('/signup', signupController);
 router.get('/home', homeController);
 
 // signin
-router.post('/signin', (req: Request, res: Response):void => {
+router.post('/signin', chkIsSignInValied, (req: Request, res: Response): void => {
   try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      res.status(400).json({ errors: errors.array() }).end();
+      return;
+    }
+
     const userAuth: {
       name: string,
       passwd: string
     } = {
-      name : (req.body as { userName: string }).userName,
-      passwd : (req.body as { userPasswd: string }).userPasswd
-    }
-    if ( userAuth.name ===  req.session.newUserName && userAuth.passwd === req.session.newUserPasswd ) {
-        (req.session as { username: string }).username  = userAuth.name;
-        (req.session as { password: string }).password  = userAuth.passwd;
-        res.redirect('/home');
-      } else {
-        res.redirect('/signin');
-      }
-  } catch (err) {
-    res.status(500).json({message: err});
+      name: req.body.userName,
+      passwd: req.body.userPasswd
+    };
+
+    req.session.username = userAuth.name;
+    req.session.password = userAuth.passwd;
+    res.redirect('/home');
+
+    res.status(200).end();
+
+  } catch (err) { 
+    res.status(500).json({message: err.message});
   }
-});
+})
 
 // signup
-router.post('/signup', ( req: Request, res: Response ):void => {
-  try {
-    if(req.body.newUserName && req.body.newUserEmail && req.body.newUserPasswd && req.body.newUserConfmPasswd){
+router.post('/signup', chkIsSignUpValied, ( req: Request, res: Response ):void => {
+    try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        res.status(400).json({ errors: errors.array() }).end();
+        return;
+      }
+
       const newUserAuth: {
         username: string,
         email: string,
         password: string,
         confirmPasswd: string,
       } = {
-        username: (req.body as { newUserName: string}).newUserName,
-        email: (req.body as { newUserEmail: string }).newUserEmail,
-        password: (req.body as { newUserPasswd: string }).newUserPasswd,
-        confirmPasswd: (req.body as { newUserConfmPasswd: string }).newUserConfmPasswd,
+        username: req.body.newUserName,
+        email: req.body.newUserEmail,
+        password: req.body.newUserPasswd,
+        confirmPasswd: req.body.newUserConfmPasswd,
       }
-      if( newUserAuth.password === newUserAuth.confirmPasswd && newUserAuth.password.length >= 7 ){
-        (req.session as { newUserName: string }).newUserName = newUserAuth.username;
-        (req.session as { newUserEmail: string }).newUserEmail = newUserAuth.email;
-        (req.session as { newUserPasswd: string }).newUserPasswd = newUserAuth.password;
-        res.redirect('/home');
-      } else {
-        const msg = newUserAuth.password.length < 7 ? 'パスワードは7文字以上で入力してください' : 'パスワードが一致しません';
-        res.status(401).json({message: msg})
-        res.redirect('/signup');
-      }
-    } else {
-      res.status(401).json({message: '入力に空欄があります'})
-      res.redirect('/signup');
+
+      req.session.newUserName = newUserAuth.username;
+      req.session.newUserPasswd = newUserAuth.password;
+      res.redirect('/home');
+
+    } catch (err) {
+      res.status(500).json({message: err});
     }
-  } catch (err) {
-    res.status(500).json({message: err});
-  }
 })
 
 // signout

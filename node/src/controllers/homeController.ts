@@ -6,8 +6,8 @@ export const homeController: RequestHandler = (req, res): void => {
   const data: Home = {
         title: 'home',
         pageGuide: {
-            pageRef: 'Welcom Your Page',
-            pageAction: 'logout',
+            reference: 'Welcom Your Page',
+            action: 'logout',
         },
         link: {
             href: '/',

@@ -1,4 +1,6 @@
 import session from 'express-session';
+import dotENV from 'dotenv';
+dotENV.config();
 
 const sess: {
   secret: string,
@@ -6,7 +8,7 @@ const sess: {
   resave: boolean,
   saveUninitialized: boolean
 } = {
-  secret: 'secret',
+  secret: process.env.ENV_SSESS_SECRET!,
   cookie: { maxAge: 60000},
   resave: false,
   saveUninitialized: false,
