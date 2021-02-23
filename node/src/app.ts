@@ -4,7 +4,7 @@ import BodyParser from 'body-parser'
 // express-session module
 import Session from './modules/session'
 // auth-router
-import authRouter from './models/auth'
+import authRouter from './route/auth'
 
 // Loading ENV Settings
 import dotENV from 'dotenv'

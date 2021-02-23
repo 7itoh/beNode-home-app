@@ -15,3 +15,17 @@ export const signinController: RequestHandler = (req, res): void => {
     }
   res.render('../views/signin.ejs', data);
 }
+
+export const signinPostController: RequestHandler = (req, res): void => {
+    const userAuth: {
+        name: string,
+        passwd: string
+      } = {
+        name: req.body.userName,
+        passwd: req.body.userPasswd
+      };
+  
+      req.session.username = userAuth.name;
+      req.session.password = userAuth.passwd;
+      res.redirect('/home');
+}

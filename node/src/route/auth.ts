@@ -3,7 +3,7 @@ import { Router, Request, Response } from 'express'
 import { validationResult } from 'express-validator'
 import { chkIsSignInValied, chkIsSignUpValied } from '../modules/chkIsValied'
 
-import { signinController } from '../controllers/signinController'
+import { signinController, signinPostController } from '../controllers/signinController'
 import { signupController } from '../controllers/signupController'
 import { homeController } from '../controllers/homeController'
 

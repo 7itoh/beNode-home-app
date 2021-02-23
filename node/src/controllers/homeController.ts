@@ -18,7 +18,10 @@ export const homeController: RequestHandler = (req, res): void => {
         },
     }
 
-    data.authUser.name = !data.authUser.name ? (req.session as { newUserName: string }).newUserName : (req.session as { username: string }).username;
+    const newUserName: string = req.session.newUserName!;
+    const userName: string = req.session.username!;
+
+    data.authUser.name = !data.authUser.name ? newUserName : userName ;
 
   res.render('../views/home.ejs', data);
 }
