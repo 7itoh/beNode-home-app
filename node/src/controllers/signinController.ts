@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express'
 import { Auth } from '../modules/auth'
 
-export const signinController: RequestHandler = (req, res): void => {
+export const getSignin: RequestHandler = (req, res): void => {
     const data: Auth = {
         title: 'Login',
         pageGuide: {
@@ -16,16 +16,16 @@ export const signinController: RequestHandler = (req, res): void => {
   res.render('../views/signin.ejs', data);
 }
 
-export const signinPostController: RequestHandler = (req, res): void => {
-    const userAuth: {
-        name: string,
-        passwd: string
-      } = {
-        name: req.body.userName,
-        passwd: req.body.userPasswd
-      };
-  
-      req.session.username = userAuth.name;
-      req.session.password = userAuth.passwd;
-      res.redirect('/home');
+export const postSignin: RequestHandler = (req, res, next): void => {
+  const userAuth: {
+      name: string,
+      passwd: string
+    } = {
+      name: req.body.userName,
+      passwd: req.body.userPasswd
+    };
+
+    req.session.username = userAuth.name;
+    req.session.password = userAuth.passwd;
+    res.redirect('/home');
 }

@@ -1,11 +1,12 @@
-import { Router, Request, Response } from 'express'
+import { Router, Request, Response, NextFunction } from 'express'
 
-import { validationResult } from 'express-validator'
-import { chkIsSignInValied, chkIsSignUpValied } from '../modules/chkIsValied'
-
-import { signinController, signinPostController } from '../controllers/signinController'
-import { signupController } from '../controllers/signupController'
+// Controller modules
+import { getSignin, postSignin } from '../controllers/signinController'
+import { getSignup, postSignup } from '../controllers/signupController'
 import { homeController } from '../controllers/homeController'
+
+// Validator modules
+import { chkIsSignInValied, chkIsSignUpValied } from '../modules/chkIsValied'
 
 const router = Router();
 
@@ -15,68 +16,20 @@ router.get('/', (req: Request, res: Response): void => {
 })
 
 // Auth Controller
-router.get('/signin', signinController);
-router.get('/signup', signupController);
+router.get('/signin', getSignin);
+router.get('/signup', getSignup);
 
 // Home Controller
 router.get('/home', homeController);
 
 // signin
-router.post('/signin', chkIsSignInValied, (req: Request, res: Response): void => {
-  try {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      res.status(400).json({ errors: errors.array() }).end();
-      return;
-    }
-
-    const userAuth: {
-      name: string,
-      passwd: string
-    } = {
-      name: req.body.userName,
-      passwd: req.body.userPasswd
-    };
-
-    req.session.username = userAuth.name;
-    req.session.password = userAuth.passwd;
-    res.redirect('/home');
-
-    res.status(200).end();
-
-  } catch (err) { 
-    res.status(500).json({message: err.message});
-  }
-})
+router.post('/signin', chkIsSignInValied, (req: Request, res: Response, next: NextFunction): void => {
+  postSignin(req, res, next);
+});
 
 // signup
-router.post('/signup', chkIsSignUpValied, ( req: Request, res: Response ):void => {
-    try {
-      const errors = validationResult(req);
-      if (!errors.isEmpty()) {
-        res.status(400).json({ errors: errors.array() }).end();
-        return;
-      }
-
-      const newUserAuth: {
-        username: string,
-        email: string,
-        password: string,
-        confirmPasswd: string,
-      } = {
-        username: req.body.newUserName,
-        email: req.body.newUserEmail,
-        password: req.body.newUserPasswd,
-        confirmPasswd: req.body.newUserConfmPasswd,
-      }
-
-      req.session.newUserName = newUserAuth.username;
-      req.session.newUserPasswd = newUserAuth.password;
-      res.redirect('/home');
-
-    } catch (err) {
-      res.status(500).json({message: err});
-    }
+router.post('/signup', chkIsSignUpValied, (req: Request, res: Response, next: NextFunction): void => {
+  postSignup(req, res, next);
 })
 
 // signout

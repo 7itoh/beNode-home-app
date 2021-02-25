@@ -5,7 +5,6 @@ export class Auth {
     public link: { href: string, text: string}
     ){}
 }
-
 export class Home {
   constructor(
     public title: string,
