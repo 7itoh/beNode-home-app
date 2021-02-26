@@ -23,14 +23,10 @@ router.get('/signup', getSignup);
 router.get('/home', homeController);
 
 // signin
-router.post('/signin', chkIsSignInValied, (req: Request, res: Response, next: NextFunction): void => {
-  postSignin(req, res, next);
-});
+router.post('/signin', chkIsSignInValied, postSignin);
 
 // signup
-router.post('/signup', chkIsSignUpValied, (req: Request, res: Response, next: NextFunction): void => {
-  postSignup(req, res, next);
-})
+router.post('/signup', chkIsSignUpValied, postSignup)
 
 // signout
 router.get('/signout', (req: Request, res: Response):void => {
