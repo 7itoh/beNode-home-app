@@ -1,14 +1,26 @@
-import Express, { Request, Response } from 'express'
-import dotENV from 'dotenv'
+import Express from 'express'
+import BodyParser from 'body-parser'
 
+// express-session module
+import Session from './modules/session'
+// auth-router
+import authRouter from './route/auth'
+
+// Loading ENV Settings
+import dotENV from 'dotenv'
 dotENV.config();
 const port = process.env.ENV_PORT;
 
+// app start
 const app = Express();
 
-app.get('/', (req: Request, res: Response): void => {
-    res.send('Hello World');
- })
+app.use(Session);
+app.use(BodyParser.urlencoded({ extended: true }));
+app.use('/', authRouter);
+
+// Loading .ejs 
+app.set('view engine', 'ejs');
+app.set('views', './src/views');
 
 app.listen(port, () => {
     console.log(`Listening on Port_Num: ${port}`);

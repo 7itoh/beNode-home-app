@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>signup page</title>
+    <style>
+        fieldset {
+            width: 400px;
+        }
+        section {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <article>
+        <section>
+            <header>
+                <h1>
+                    <%= title %>
+                </h1>
+            </header>
+        </section>
+        <section>
+            <fieldset>
+                <legend><%= pageGuide.reference %></legend>
+                <br>
+                <%- include('./elements/signupForm.ejs', pageGuide)%>
+                <section>
+                    <%- include('./elements/baseLink.ejs', link)%>
+                </section>
+            </fieldset>
+        </section>
+    </article>
+</body>
+
+</html>

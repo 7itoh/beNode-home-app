@@ -1,0 +1,24 @@
+<form action="/signup" method="POST">
+    <section>
+        <label for="newUserName">Name
+            <input type="text" name="newUserName" >
+        </label>
+    </section>
+    <section>
+        <label for="newUserEmail">E-Mail Address
+            <input type="email" name="newUserEmail" >
+        </label>
+    </section>
+    <section>
+        <label for="newUserPasswd">password
+            <input type="password" name="newUserPasswd" >
+        </label>
+    </section>
+    <section>
+        <label for="newUserConfmPasswd">Confirm password
+            <input type="password" name="newUserConfmPasswd" >
+        </label>
+    </section>
+    <br>
+    <%- include('./baseButton.ejs', pageGuide)%>
+</form>
